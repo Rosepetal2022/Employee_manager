@@ -105,7 +105,6 @@ function addDepartment () {
         connection.query(sql, department, function (err, results) {
             if (err) throw (err);
             console.table(departmentTable());
-            initialQuestion();
         });
     });
 }
@@ -142,7 +141,7 @@ function addEmployee() {
         {
             type: 'input',
             name: 'employeeRole',
-            message: 'Please enter the employee role.',
+            message: 'Please enter the employee role id.',
             validate: employeeRoleInput => {
                 if (employeeRoleInput) {
                     return true;
@@ -166,7 +165,7 @@ function addEmployee() {
             }
         }
     ]).then((userInput) => {
-        const sql = 'INSERT INTO employees (first_name, last_name, role_title, manager) VALUES (?,?,?,?)';
+        const sql = 'INSERT INTO employees (first_name, last_name, role_id, manager) VALUES (?,?,?,?)';
         const employee =  
             [userInput.employeeFirstName, 
             userInput.employeeLastName,
@@ -176,7 +175,6 @@ function addEmployee() {
             connection.query(sql, employee, function (err, results) {
                 if (err) throw (err);
                 console.table(employeesTable());
-                initialQuestion();
             }
         )
     })
@@ -201,7 +199,7 @@ function addRole() {
         {
             type: 'input',
             name: 'roleSalary',
-            message: 'Please enter the role you would like to add',
+            message: 'Please enter the salary for the role.',
             validate: roleSalaryInput => {
                 if (roleSalaryInput) {
                     return true;
@@ -214,7 +212,7 @@ function addRole() {
         {
             type: 'input',
             name: 'roleDepartment',
-            message: 'Please enter department for this role',
+            message: 'Please enter department id for this role',
             validate: roleDepartmentInput => {
                 if (roleDepartmentInput) {
                     return true;
@@ -225,17 +223,37 @@ function addRole() {
             }
         }
     ]).then((userInput) => {
-        const sql = 'INSERT INTO roles (title, salary, role_id) VALUES (?,?,?)';
+        const sql = 'INSERT INTO roles (title, salary, department_id) VALUES (?,?,?)';
         const role =  
-            [userInput.roleNameInput, 
-            userInput.roleSalaryInput,
-            userInput.roleDepartmentInput]
+            [userInput.roleName, 
+            userInput.roleSalary,
+            userInput.roleDepartment]
        
             connection.query(sql, role, function (err, results) {
                 if (err) throw (err);
                 console.table(rolesTable());
-                initialQuestion();
             }
         )
     })
+};
+
+function updateRole() {
+    //let employees = 'SELECT * FROM employees';
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'updateEmp',
+            message: 'What is the id of the employee you would like to update?',
+        },
+        {
+            type: 'input',
+            name: 'updateRole',
+            message: 'What is the new role id?'
+        }
+    ]).then((userInput) => {
+        connection.query(`UPDATE employees SET role_id = ${userInput.updateRole} WHERE id = ${userInput.updateEmp}`, function(err, results){
+            if(err) throw err;
+            console.table(employeesTable());
+        });
+    });
 };
