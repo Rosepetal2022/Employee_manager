@@ -5,7 +5,7 @@ VALUES
     ('Human Resources'),
     ('Interns');
 
-INSERT INTO roles(title, salary, role_id)
+INSERT INTO roles(title, salary, department_id)
 VALUES
     ('Software Engineer', 90000, 1),
     ('Web Developer', 90000, 1),
@@ -22,9 +22,9 @@ VALUES
     ('Accounting Intern', 40000, 4),
     ('HR Intern', 40000, 4);
 
-    INSERT INTO employees (first_name, last_name, employee_id, manager)
+    INSERT INTO employees (first_name, last_name, role_id, manager)
     VALUES
-        ('Tony', 'Stark', 10, 'Nick Fury'),
-        ('Steve', 'Rogers', 11, 'Nick Fury'),
-        ('Proxima', 'Midnight', 12, 'Thanos'),
-        ('Corvus', 'Glave', 13, 'Thanos');
+        ('Tony', 'Stark', 1, 'Nick Fury'),
+        ('Steve', 'Rogers', 2, 'Nick Fury'),
+        ('Proxima', 'Midnight', 3, 'Thanos'),
+        ('Corvus', 'Glave', 4, 'Thanos');

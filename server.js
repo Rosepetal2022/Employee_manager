@@ -64,15 +64,19 @@ function departmentTable() {
 }
 
 function rolesTable() {
-    connection.query('SELECT * FROM roles', function (err, results) {
-        if (err) throw err;
+    connection.query('SELECT roles.id, title, salary, department_id, department_name FROM roles JOIN departments ON roles.department_id = departments.id', 
+    function (err, results) {
+        if (err) throw err
         console.table(results);
         initialQuestion();
     })
 };
 
 function employeesTable() {
-    connection.query('SELECT * FROM employees', function (err, results) {
+    connection.query(
+        'SELECT first_name, last_name, title, department_name, salary, manager FROM roles JOIN employees ON roles.id = employees.role_id JOIN departments ON roles.department_id = departments.id', 
+        function (err, results) {
+        
         if (err) throw err;
         console.table(results);
         initialQuestion();
@@ -102,8 +106,8 @@ function addDepartment () {
             if (err) throw (err);
             console.table(departmentTable());
             initialQuestion();
-        }
-    })
+        });
+    });
 }
 
 //add first_name, last_name, role, and manager
